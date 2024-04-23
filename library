@@ -1,143 +1,107 @@
 abstract class Publisher {
-	title: string
-	author: string
-	publishYear: number
-	copies: number
+    title: string
+    author: string
+    publishYear: number
+    copies = number
+    static count: number = 0
 
-	constructor(
-		title: string,
-		author: string,
-		publishYear: number,
-		copies: number) {
-		this.title = title
-		this.author = author
-		this.publishYear = publishYear
-		this.copies = copies
-	}
+    constructor() {
+        Publisher.count++
+    }
 
-	getTitle(): string {
-		return this.title
-	}
-	setTitle(title: string): void {
-		this.title = title
-	}
+    get getTitle(): string {
+        return this.title
+    }
+    set setTitle(title: string) {
+        this.title = title
+    }
 
-	getAuthor(): string {
-		return this.author
-	}
-	setAuthor(author: string): void {
-		this.author = author
-	}
+    get getAuthor(): string {
+        return this.author
+    }
+    set setAuthor(author: string) {
+        this.author = author
+    }
 
-	getPublishYear(): number{
-		return this.publishYear
-	}
-	setPublishYear(publishYear: number): void {
-		this.publishYear = publishYear
-	}
+    get getPublishYear(): number {
+        return this.publishYear
+    }
+    set setPublishYear(publishYear: number) {
+        this.publishYear = publishYear
+    }
 
-	getCopies(): number {
-		return this.copies
-	}
-	setCopies(copies: number): void {
-		this.copies = copies
-	}
+    get getCopies(): number {
+        return this.copies
+    }
+    set setCopies(copies: number) {
+        this.copies = copies
+    }
 }
 
-class Book extends Publisher {
-	pages: number
+class Book extends Publisher implements Reception {
+    pages: number
 
-	constructor(
-		title: string,
-		author: string,
-		publishYear: number,
-		copies: number,
-		pages: number
-	) {
-		super(title, author, publishYear, copies)
-		this.pages = pages
-	}
+    delivery(publisher: Publisher): void {
 
-	getPages(): number {
-		return this.pages
-	}
-	setPages(pages: number): void {
-		this.pages = pages
-	}
+    }
+    receive(publisher: Publisher): void {
+
+    }
 }
 
-class Magazine extends Publisher {
-	issue: number
+class Magazine extends Publisher implements Reception {
+    issue: number
 
-	constructor(
-		title: string,
-		author: string,
-		publishYear: number,
-		copies: number,
-		issue: number
-	) {
-		super(title, author, publishYear, copies)
-		this.issue = issue
-	}
+    delivery(publisher: Publisher): void {
 
-	getIssue(): number {
-		return this.issue
-	}
-	setIssue(issue: number): void {
-		this.issue = issue
-	}
+    }
+    receive(publisher: Publisher): void {
+
+    }
 }
 
 interface Reception {
-	delivery(publisher: Publisher): void
-	receive(publisher: Publisher): void
+    delivery(publisher: Publisher): void
+    receive(publisher: Publisher): void
 }
 
-class Reader {
-	firstName: string
-	lastName: string
-	items: object[]
+class Reader extends Publisher implements Reception {
+    firstName: string
+    lastName: string
+    static items: Publisher[]
 
-	constructor(firstName: string, lastName: string, items: object[]) {
-		this.firstName = firstName
-		this.lastName = lastName
-		this.items = items
-	}
+    get getFirstName(): string {
+        return this.firstName
+    }
+    set setFirstName(firstName: string) {
+        this.firstName = firstName
+    }
 
-	getFirstName(): string {
-		return this.firstName
-	}
-	setFirstName(firstName: string): void {
-		this.firstName = firstName
-	}
+    get getLastName(): string {
+        return this.lastName
+    }
+    set setLastName(lastName: string) {
+        this.lastName = lastName
+    }
 
-	getLastName(): string {
-		return this.lastName
-	}
-	setLastName(lastName: string): void {
-		this.lastName = lastName
-	}
-
-	getItems(): object[] {
-		return this.items
-	}
-	setItems(items: string): void {
-		this.lastName = items
-	}
-	addItem(item: object[]): void {
-		if (this.items.length < 3) {
-			this.items.push(item)
-		}
-	}
-
-	removeItem(item: Publisher): void {
-		const index = this.items.indexOf(item)
-		if (index > -1) {
-			this.items.splice(index, 1)
-		}
-	}
+    delivery(publisher: Publisher): void {
+        if (this.copies || Publisher.count == Reader.items.length) return
+        this.copies = this.copies - 1
+    }
+    receive(publisher: Publisher): void {
+        this.copies = this.copies + 1
+    }
 }
 
+class Library{
+    set deleteCopies(){
+Publisher.count = Publisher.count - 
+    }
+
+    set addCopies(){
+
+    }
+}
 class Library {
 	private publications: object[]
 
